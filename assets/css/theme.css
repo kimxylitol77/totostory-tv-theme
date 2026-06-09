@@ -1584,14 +1584,20 @@ button {
   }
 
   .nav-dropdown {
+    display: none;
+    flex-wrap: wrap;
     left: 0;
     max-width: calc(100vw - 32px);
     overflow-x: auto;
+    position: static;
     transform: translate(0, 8px);
+    white-space: normal;
+    width: max-content;
   }
 
   .nav-group:hover .nav-dropdown,
   .nav-group:focus-within .nav-dropdown {
+    display: inline-flex;
     transform: translate(0, 0);
   }
 
