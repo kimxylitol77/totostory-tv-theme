@@ -331,14 +331,20 @@ function totostory_tv_partner_page_config(?WP_Post $post = null): ?array
         'safe' => array(
             'title' => __('안전 토토사이트', 'totostory-tv'),
             'description' => __('검증 기준과 제휴 상태를 한눈에 확인하는 보증업체 목록입니다.', 'totostory-tv'),
+            'target_url' => totostory_tv_category_url(array('안전한 토토사이트', '안전 토토사이트', '안전토토사이트'), '/안전한-토토사이트/'),
+            'target_label' => __('안전토토사이트 보기', 'totostory-tv'),
         ),
         'casino' => array(
             'title' => __('검증카지노', 'totostory-tv'),
             'description' => __('카지노 제휴 검증 상태와 이용 전 확인할 핵심 정보를 정리합니다.', 'totostory-tv'),
+            'target_url' => totostory_tv_category_url(array('검증 카지노', '검증카지노', '카지노 사이트', '카지노사이트'), '/검증-카지노/'),
+            'target_label' => __('카지노사이트 보기', 'totostory-tv'),
         ),
         'new' => array(
             'title' => __('신규 토토사이트', 'totostory-tv'),
             'description' => __('신규 도메인과 신규 제휴업체 검증 현황을 확인합니다.', 'totostory-tv'),
+            'target_url' => totostory_tv_category_url(array('신규 토토사이트', '신규토토사이트', '신규 검증'), '/신규-토토사이트/'),
+            'target_label' => __('신규토토사이트 보기', 'totostory-tv'),
         ),
         'verification' => array(
             'title' => __('Verification', 'totostory-tv'),
@@ -379,11 +385,14 @@ function totostory_tv_partner_archive_config(): ?array
 
     $slug = (string) $term->slug;
     $normalized_name = totostory_tv_normalize_title((string) $term->name, true);
+    $term_url = get_category_link($term);
 
     if (false !== strpos($slug, 'casino') || false !== strpos($normalized_name, '검증카지노')) {
         return array(
             'title' => __('검증카지노', 'totostory-tv'),
             'description' => __('카지노 제휴 검증 상태와 이용 전 확인할 핵심 정보를 정리합니다.', 'totostory-tv'),
+            'target_url' => $term_url,
+            'target_label' => __('카지노사이트 보기', 'totostory-tv'),
         );
     }
 
@@ -391,6 +400,8 @@ function totostory_tv_partner_archive_config(): ?array
         return array(
             'title' => __('신규 토토사이트', 'totostory-tv'),
             'description' => __('신규 도메인과 신규 제휴업체 검증 현황을 확인합니다.', 'totostory-tv'),
+            'target_url' => $term_url,
+            'target_label' => __('신규토토사이트 보기', 'totostory-tv'),
         );
     }
 
@@ -398,6 +409,8 @@ function totostory_tv_partner_archive_config(): ?array
         return array(
             'title' => __('안전 토토사이트', 'totostory-tv'),
             'description' => __('검증 기준과 제휴 상태를 한눈에 확인하는 보증업체 목록입니다.', 'totostory-tv'),
+            'target_url' => $term_url,
+            'target_label' => __('안전토토사이트 보기', 'totostory-tv'),
         );
     }
 
@@ -418,6 +431,8 @@ function totostory_tv_partner_cards(): array
 
 function totostory_tv_partner_directory(array $config): void
 {
+    $target_url = !empty($config['target_url']) ? (string) $config['target_url'] : '#partners';
+    $target_label = !empty($config['target_label']) ? (string) $config['target_label'] : __('목록보기', 'totostory-tv');
     $notices = array(
         array(__('공지', 'totostory-tv'), __('[필독] 2026년 검증 기준 업데이트', 'totostory-tv'), '+51', '26.06.09'),
         array(__('공지', 'totostory-tv'), __('신규 제휴 심사 접수 안내', 'totostory-tv'), '+38', '26.06.08'),
@@ -515,8 +530,8 @@ function totostory_tv_partner_directory(array $config): void
                             </div>
                         </dl>
                         <div class="partner-actions">
-                            <a href="#partners"><?php esc_html_e('상세보기 +', 'totostory-tv'); ?></a>
-                            <a href="#partners"><?php esc_html_e('바로가기 ↗', 'totostory-tv'); ?></a>
+                            <a href="<?php echo esc_url($target_url); ?>"><?php esc_html_e('상세보기 +', 'totostory-tv'); ?></a>
+                            <a href="<?php echo esc_url($target_url); ?>"><?php echo esc_html($target_label); ?></a>
                         </div>
                     </article>
                 <?php endforeach; ?>
