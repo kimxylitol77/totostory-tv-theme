@@ -16,7 +16,8 @@ $post_query = totostory_tv_query_posts(3);
 $latest_query = totostory_tv_query_posts(6);
 $legacy_page_links = totostory_tv_legacy_page_links(12);
 $report_query = totostory_tv_query_reports(3);
-$hero_image = totostory_tv_asset('assets/images/sports-broadcast-hero.png');
+$hero_image = totostory_tv_asset('assets/images/sports-tv-studio-v2.png');
+$guide_image = totostory_tv_asset('assets/images/sports-tv-studio-v2.png');
 $match_count = (int) wp_count_posts('tv_match')->publish;
 $post_count = (int) wp_count_posts('post')->publish;
 $report_count = (int) wp_count_posts('safety_report')->publish;
@@ -105,9 +106,15 @@ $fallback_matches = array(
 
     <?php if ($front_page_content && trim(wp_strip_all_tags($front_page_content))) : ?>
         <section class="home-editor-section" id="intro">
-            <div class="section-heading">
-                <p>ORIGINAL CONTENT</p>
-                <h2><?php esc_html_e('기존 전면 콘텐츠', 'totostory-tv'); ?></h2>
+            <div class="home-editor-hero">
+                <div class="section-heading">
+                    <p>TOTO TV GUIDE</p>
+                    <h2><?php esc_html_e('토토티비 이용 가이드', 'totostory-tv'); ?></h2>
+                    <span><?php esc_html_e('기존 전면 페이지 글은 유지하면서, 중계 일정과 종목 안내를 더 보기 좋게 정리했습니다.', 'totostory-tv'); ?></span>
+                </div>
+                <figure class="home-editor-visual">
+                    <img alt="<?php esc_attr_e('스포츠 중계 일정 대시보드가 있는 방송 데스크', 'totostory-tv'); ?>" src="<?php echo esc_url($guide_image); ?>">
+                </figure>
             </div>
             <article class="home-editor-content article-body">
                 <?php echo wp_kses_post($front_page_content); ?>

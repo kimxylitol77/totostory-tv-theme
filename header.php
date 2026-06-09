@@ -42,6 +42,12 @@ if (!function_exists('totostory_tv_primary_menu_fallback')) {
         </span>
     </a>
 
+    <nav aria-label="<?php esc_attr_e('핵심 바로가기', 'totostory-tv'); ?>" class="header-feature-links">
+        <a href="<?php echo esc_url(totostory_tv_page_url(array('토토스토리 스포츠tv', '토토스토리 스포츠TV', '스포츠TV', '스포츠중계'), '/tv/')); ?>"><?php esc_html_e('토토티비', 'totostory-tv'); ?></a>
+        <span aria-hidden="true">|</span>
+        <a href="<?php echo esc_url(totostory_tv_page_url(array('스포츠 다시보기', '스포츠다시보기', '하이라이트'), '/category/highlight/')); ?>"><?php esc_html_e('하이라이트', 'totostory-tv'); ?></a>
+    </nav>
+
     <?php wp_nav_menu(totostory_tv_primary_menu_args()); ?>
 
     <div class="top-actions" aria-label="<?php esc_attr_e('빠른 실행', 'totostory-tv'); ?>">
