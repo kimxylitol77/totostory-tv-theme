@@ -10,6 +10,18 @@ if (!defined('ABSPATH')) {
 }
 
 get_header();
+
+$partner_archive_config = totostory_tv_partner_archive_config();
+
+if ($partner_archive_config) :
+    ?>
+    <main class="site-shell page-shell partner-shell">
+        <?php totostory_tv_partner_directory($partner_archive_config); ?>
+    </main>
+    <?php
+    get_footer();
+    return;
+endif;
 ?>
 <main class="site-shell page-shell">
     <section class="post-hero">
