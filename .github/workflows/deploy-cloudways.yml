@@ -1,0 +1,93 @@
+name: Deploy theme to Cloudways
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+concurrency:
+  group: cloudways-theme-deploy
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      CLOUDWAYS_HOST: ${{ secrets.CLOUDWAYS_HOST }}
+      CLOUDWAYS_USERNAME: ${{ secrets.CLOUDWAYS_USERNAME }}
+      CLOUDWAYS_PORT: ${{ secrets.CLOUDWAYS_PORT }}
+      CLOUDWAYS_PATH: ${{ secrets.CLOUDWAYS_PATH }}
+
+    steps:
+      - name: Checkout theme
+        uses: actions/checkout@v4
+
+      - name: Validate Cloudways settings
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          : "${CLOUDWAYS_HOST:?Missing CLOUDWAYS_HOST secret}"
+          : "${CLOUDWAYS_USERNAME:?Missing CLOUDWAYS_USERNAME secret}"
+          : "${CLOUDWAYS_PATH:?Missing CLOUDWAYS_PATH secret}"
+
+          case "$CLOUDWAYS_PATH" in
+            *wp-content/themes/totostory-tv-theme|*wp-content/themes/totostory-tv-theme/) ;;
+            *)
+              echo "CLOUDWAYS_PATH must end with wp-content/themes/totostory-tv-theme"
+              exit 1
+              ;;
+          esac
+
+          echo "CLOUDWAYS_PORT=${CLOUDWAYS_PORT:-22}" >> "$GITHUB_ENV"
+
+      - name: Install SSH key
+        env:
+          CLOUDWAYS_SSH_KEY: ${{ secrets.CLOUDWAYS_SSH_KEY }}
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          : "${CLOUDWAYS_SSH_KEY:?Missing CLOUDWAYS_SSH_KEY secret}"
+
+          mkdir -p ~/.ssh
+          printf '%s\n' "$CLOUDWAYS_SSH_KEY" > ~/.ssh/cloudways_key
+          chmod 600 ~/.ssh/cloudways_key
+          ssh-keyscan -p "$CLOUDWAYS_PORT" -H "$CLOUDWAYS_HOST" >> ~/.ssh/known_hosts
+
+      - name: Create theme directory
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          ssh \
+            -i ~/.ssh/cloudways_key \
+            -p "$CLOUDWAYS_PORT" \
+            "$CLOUDWAYS_USERNAME@$CLOUDWAYS_HOST" \
+            "mkdir -p '$CLOUDWAYS_PATH'"
+
+      - name: Upload theme files
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          rsync -az \
+            --checksum \
+            --exclude='.git/' \
+            --exclude='.github/' \
+            --exclude='.gitignore' \
+            --exclude='CLOUDWAYS_DEPLOY.md' \
+            -e "ssh -i ~/.ssh/cloudways_key -p $CLOUDWAYS_PORT" \
+            ./ "$CLOUDWAYS_USERNAME@$CLOUDWAYS_HOST:$CLOUDWAYS_PATH/"
+
+      - name: Verify deployed theme
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          ssh \
+            -i ~/.ssh/cloudways_key \
+            -p "$CLOUDWAYS_PORT" \
+            "$CLOUDWAYS_USERNAME@$CLOUDWAYS_HOST" \
+            "test -f '$CLOUDWAYS_PATH/style.css' && test -f '$CLOUDWAYS_PATH/functions.php'"
