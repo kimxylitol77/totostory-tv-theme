@@ -52,8 +52,8 @@ button {
   background: rgba(255, 255, 255, 0.92);
   border-bottom: 1px solid rgba(220, 229, 223, 0.86);
   display: grid;
-  gap: 22px;
-  grid-template-columns: minmax(190px, auto) auto minmax(0, 1fr) auto;
+  gap: 18px;
+  grid-template-columns: minmax(190px, auto) minmax(0, 1fr) auto;
   left: 0;
   padding: 14px 5vw;
   position: sticky;
@@ -101,37 +101,10 @@ button {
   text-transform: uppercase;
 }
 
-.header-feature-links {
-  align-items: center;
-  background: #101d19;
-  border: 1px solid rgba(21, 163, 109, 0.24);
-  border-radius: 8px;
-  color: #ffffff;
-  display: inline-flex;
-  font-size: 0.9rem;
-  font-weight: 900;
-  gap: 9px;
-  min-height: 40px;
-  padding: 0 13px;
-  white-space: nowrap;
-}
-
-.header-feature-links a {
-  color: #ffffff;
-}
-
-.header-feature-links a:hover {
-  color: #8ce2bd;
-}
-
-.header-feature-links span {
-  color: rgba(255, 255, 255, 0.38);
-}
-
 .nav-links {
   align-items: center;
   display: flex;
-  gap: 6px;
+  gap: 7px;
   justify-content: center;
   list-style: none;
   margin: 0;
@@ -140,7 +113,8 @@ button {
 }
 
 .nav-links a,
-.nav-links .menu-item a {
+.nav-links .menu-item a,
+.nav-group > button {
   border-radius: 8px;
   color: #34423d;
   display: inline-flex;
@@ -151,9 +125,113 @@ button {
 }
 
 .nav-links a:hover,
-.nav-links .current-menu-item > a {
+.nav-links .current-menu-item > a,
+.nav-group:hover > button,
+.nav-group:focus-within > button {
   background: #e9f3ee;
   color: var(--green-deep);
+}
+
+.site-menu {
+  overflow: visible;
+}
+
+.nav-combo {
+  align-items: center;
+  background: #101d19;
+  border: 1px solid rgba(21, 163, 109, 0.24);
+  border-radius: 8px;
+  color: #ffffff;
+  display: inline-flex;
+  font-size: 0.9rem;
+  font-weight: 900;
+  gap: 9px;
+  min-height: 40px;
+  padding: 0 10px;
+  white-space: nowrap;
+}
+
+.nav-combo a {
+  color: #ffffff;
+  font-weight: 900;
+  padding: 8px 3px;
+}
+
+.nav-combo a:hover {
+  background: transparent;
+  color: #8ce2bd;
+}
+
+.nav-combo span {
+  color: rgba(255, 255, 255, 0.38);
+}
+
+.nav-group {
+  display: inline-flex;
+  position: relative;
+}
+
+.nav-group > button {
+  align-items: center;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  gap: 6px;
+}
+
+.nav-group > button::after {
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-top: 5px solid currentColor;
+  content: "";
+  display: inline-block;
+  opacity: 0.62;
+}
+
+.nav-dropdown {
+  align-items: center;
+  background: #ffffff;
+  border: 1px solid rgba(214, 226, 219, 0.96);
+  border-radius: 8px;
+  box-shadow: 0 18px 44px rgba(24, 38, 33, 0.14);
+  color: rgba(52, 66, 61, 0.34);
+  display: inline-flex;
+  gap: 3px;
+  left: 50%;
+  opacity: 0;
+  padding: 8px;
+  pointer-events: none;
+  position: absolute;
+  top: calc(100% + 10px);
+  transform: translate(-50%, 8px);
+  transition: opacity 0.16s ease, transform 0.16s ease;
+  white-space: nowrap;
+  z-index: 40;
+}
+
+.nav-dropdown::before {
+  bottom: 100%;
+  content: "";
+  height: 12px;
+  left: 0;
+  position: absolute;
+  right: 0;
+}
+
+.nav-dropdown a {
+  font-size: 0.88rem;
+  padding: 8px 9px;
+}
+
+.nav-dropdown span {
+  color: rgba(52, 66, 61, 0.28);
+}
+
+.nav-group:hover .nav-dropdown,
+.nav-group:focus-within .nav-dropdown {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translate(-50%, 0);
 }
 
 .top-actions,
@@ -1431,22 +1509,12 @@ button {
     grid-row: 1;
   }
 
-  .header-feature-links {
-    grid-column: 1 / -1;
-    justify-content: flex-start;
-    width: max-content;
-  }
-
   .nav-links {
+    flex-wrap: wrap;
     grid-column: 1 / -1;
     justify-content: flex-start;
-    overflow-x: auto;
+    overflow: visible;
     padding-bottom: 2px;
-    scrollbar-width: none;
-  }
-
-  .nav-links::-webkit-scrollbar {
-    display: none;
   }
 
   .hero-content,
@@ -1498,21 +1566,39 @@ button {
     justify-content: end;
   }
 
-  .header-feature-links {
+  .nav-links {
+    gap: 5px;
+  }
+
+  .nav-combo {
     font-size: 0.86rem;
     min-height: 38px;
-    padding: 0 11px;
+    padding: 0 9px;
+  }
+
+  .nav-group > button,
+  .nav-links a,
+  .nav-links .menu-item a {
+    font-size: 0.86rem;
+    padding: 8px 10px;
+  }
+
+  .nav-dropdown {
+    left: 0;
+    max-width: calc(100vw - 32px);
+    overflow-x: auto;
+    transform: translate(0, 8px);
+  }
+
+  .nav-group:hover .nav-dropdown,
+  .nav-group:focus-within .nav-dropdown {
+    transform: translate(0, 0);
   }
 
   .ghost-button,
   .solid-button {
     min-height: 36px;
     padding: 0 11px;
-  }
-
-  .nav-links a {
-    font-size: 0.86rem;
-    padding: 8px 10px;
   }
 
   .hero-stage,
