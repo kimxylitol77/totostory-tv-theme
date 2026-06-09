@@ -160,6 +160,29 @@ function totostory_tv_page_url(array $titles, string $fallback = '/'): string
     return home_url($fallback);
 }
 
+function totostory_tv_category_url(array $names, string $fallback = '/'): string
+{
+    $targets = array();
+
+    foreach ($names as $name) {
+        $targets[] = totostory_tv_normalize_title((string) $name, true);
+    }
+
+    $categories = get_categories(array('hide_empty' => false));
+
+    foreach ($categories as $category) {
+        if (in_array(totostory_tv_normalize_title((string) $category->name, true), $targets, true)) {
+            return get_category_link($category);
+        }
+    }
+
+    if (preg_match('#^https?://#', $fallback)) {
+        return $fallback;
+    }
+
+    return home_url($fallback);
+}
+
 function totostory_tv_legacy_page_groups(): array
 {
     return array(
