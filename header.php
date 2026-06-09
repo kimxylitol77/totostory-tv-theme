@@ -10,14 +10,15 @@ if (!defined('ABSPATH')) {
 }
 
 $tv_url = totostory_tv_page_url(array('토토스토리 스포츠tv', '토토스토리 스포츠TV', '스포츠TV', '스포츠중계'), '/tv/');
-$highlight_url = totostory_tv_page_url(array('스포츠 다시보기', '스포츠다시보기', '다시보기', '하이라이트', '스포츠 하이라이트'), '/category/highlight/');
+$highlight_url = totostory_tv_page_url(array('하이라이트', '스포츠 하이라이트'), '/category/highlight/');
+$replay_url = totostory_tv_page_url(array('스포츠 다시보기', '스포츠다시보기', '다시보기'), '/category/highlight/');
 $live_score_url = totostory_tv_page_url(array('라이브스코어', '라이브 스코어', '실시간스코어'), '/#live');
 $rank_url = totostory_tv_page_url(array('팀순위 확인', '팀순위', '팀 순위', '순위 확인'), '/#pages');
 $result_url = totostory_tv_page_url(array('경기결과', '경기 결과', '결과'), '/#pages');
 $analysis_url = totostory_tv_page_url(array('스포츠 분석', '스포츠분석', '분석'), '/category/analysis/');
-$safe_site_url = totostory_tv_page_url(array('안전 토토사이트', '안전토토사이트', '안전 토토'), '/안전-토토사이트/');
-$casino_url = totostory_tv_page_url(array('검증카지노', '검증 카지노', '카지노 검증'), '/검증카지노/');
-$new_site_url = totostory_tv_category_url(array('신규 토토사이트', '신규토토사이트', '신규 검증'), '/category/신규-토토사이트/');
+$safe_site_url = totostory_tv_page_url(array('안전 토토사이트', '안전토토사이트', '안전 토토'), '/verification/');
+$casino_url = totostory_tv_page_url(array('검증카지노', '검증 카지노', '카지노 검증'), '/verification/');
+$new_site_url = totostory_tv_page_url(array('신규 토토사이트', '신규토토사이트', '신규 검증'), '/verification/');
 $info_url = totostory_tv_page_url(array('토토정보', '토토 정보', '베팅 가이드'), '/#pages');
 $bad_site_url = totostory_tv_page_url(array('먹튀 사이트', '먹튀사이트', '먹튀 검증'), '/verification/');
 $report_url = totostory_tv_page_url(array('먹튀제보', '먹튀 제보', '제보'), '/report/');
@@ -61,6 +62,7 @@ if (!function_exists('totostory_tv_primary_menu_fallback')) {
             <span aria-hidden="true">|</span>
             <a href="<?php echo esc_url($highlight_url); ?>"><?php esc_html_e('하이라이트', 'totostory-tv'); ?></a>
         </span>
+        <a href="<?php echo esc_url($replay_url); ?>"><?php esc_html_e('다시보기', 'totostory-tv'); ?></a>
         <a href="<?php echo esc_url($live_score_url); ?>"><?php esc_html_e('라이브스코어', 'totostory-tv'); ?></a>
         <span class="nav-group">
             <button aria-haspopup="true" type="button"><?php esc_html_e('경기정보', 'totostory-tv'); ?></button>

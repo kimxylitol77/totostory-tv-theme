@@ -110,6 +110,7 @@ $fallback_matches = array(
                 <div class="section-heading">
                     <p>TOTO TV GUIDE</p>
                     <h2><?php esc_html_e('토토티비 이용 가이드', 'totostory-tv'); ?></h2>
+                    <span><?php esc_html_e('기존 전면 페이지 글은 유지하면서, 중계 일정과 종목 안내를 더 보기 좋게 정리했습니다.', 'totostory-tv'); ?></span>
                 </div>
                 <figure class="home-editor-visual">
                     <img alt="<?php esc_attr_e('스포츠 중계 일정 대시보드가 있는 방송 데스크', 'totostory-tv'); ?>" src="<?php echo esc_url($guide_image); ?>">
